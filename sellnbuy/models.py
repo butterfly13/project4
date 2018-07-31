@@ -1,93 +1,104 @@
 from django.db import models
 from enum import Enum
+# from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.models import User
+from django.utils.translation import gettext as _
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
+from model_utils import Choices
+# fs = FileSystemStorage(location='/media/images')
+
 
 # Create your models here.
-class ConditionChoice(Enum):
-    BRAND_NEW = "Brand new"
-    USED = "Used"
-    LIKE_NEW = "Like new"
+# class ConditionChoice(Enum):
+#     BRAND_NEW = "Brand new"
+#     USED = "Used"
+#     LIKE_NEW = "Like new" 
 
-class StateChoice(Enum):
-    AL = "Alabama"
-    AK = "Alaska"
-    AZ = "Arizona"
-    AR = "Arkansas"
-    CA = "California"
-    CO = "Colorado"
-    CT = "Connecticut"
-    DE = "Delaware"
-    FL = "Florida"
-    GA = "Georgia"
-    HI = "Hawaii"
-    ID = "Idaho"
-    IL = "Illinois"
-    IN = "Indiana"
-    IA = "Iowa"
-    KS = "Kansas"
-    KY = "Kentucky"
-    LA = "Louisiana"
-    ME = "Maine"
-    MD = "Maryland"
-    MT = "Montana"
-    NE = "Nebraska"
-    NV = "Nevada"
-    NH = "New Hampshire"
-    NJ = "New Jersey"
-    NM = "New Mexico"
-    NY = "New York"
-    NC = "North Carolina"
-    ND = "North Dakota"
-    OH = "Ohio"
-    OK = "Oklahoma"
-    OR = "Oregon"
-    PA = "Pennsylvania"
-    RI = "Rhode Island"
-    SC = "South Carolina"
-    SD = "South Dakota"
-    TN = "Tennessee"
-    TX = "Texas"
-    UT = "Utah"
-    VT = "Vermont"
+# class CategoryChoice(Enum):
+#     CLOTHES = "Clothes"
+#     SHOES = "Shoes"
+#     HANDBAGS = "Handbags"
+#     BABY_STUFF = "Baby stuff"
+#     HOUSEHOLD = "Household"
+#     ELECTRONICS = "Electronics"
+#     FURNITURE = "Funiture"
+#     MISC = "Miscellaneous"
 
-class CategoryChoice(Enum):
-    CLOTHES = "Clothes"
-    SHOES = "Shoes"
-    HANDBAGS = "Handbags"
-    BABY_STUFF = "Baby stuff"
-    HOUSEHOLD = "Household"
-    ELECTRONICS = "Electronics"
-    FURNITURE = "Funiture"
-    MISC = "Miscellaneous"
 
+# class SellingChoice(Enum):
+#     SOLD = "Sold"
+#     AVAILABLE = "Available"
+
+
+
+
+class State(models.Model):
+    state = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.state
+
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    state = models.ForeignKey(State, on_delete=models.CASCADE, related_name="customer")
+    zipcode = models.CharField(max_length=10, blank = True)
+    
+   
+    def __str__(self):
+        return self.user.first_name
+
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Profile.objects.create(user=instance)
+
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()
 
 
 class Product(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name=“product”)
-    sellingStatus =models.ForeignKey(Selling, on_delete=models.CASCADE, related_name=“product”)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="product")
     product_name = models.CharField(max_length = 100)
     description = models.TextField()
     qty = models.PositiveSmallIntegerField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    image = models.ImageField(storage=fs)
-    condition = models.CharField(max_length=10, choices=[(tag, tag.value) for tag in ConditionChoice])
-    category = models.CharField(max_length=11, choices=[(tag, tag.value) for tag in CategoryChoice])
+    image = models.ImageField()
+    CONDITION = Choices(('brand_new', _('Brand new')), ('used', _('Used')), ('like_new', _('Like new')))
+    # condition = models.CharField(max_length=10, choices=[(tag, tag.value) for tag in ConditionChoice])
+    condition = models.CharField(choices=CONDITION, default=CONDITION.brand_new, max_length=10)
+    CATEGORY = Choices(
+        ('clothes', _('Clothes')),
+        ('shoes', _('Shoes')),
+        ('handbags', _('Handbags')),
+        ('baby_stuff', _('Baby Stuff')),
+        ('household', _('Household')),
+        ('electronics', _('Electronics')),
+        ('furniture', _('Furniture')),
+        ('misc', _('Miscellaneous'))
+        )
+    category = models.CharField(choices=CATEGORY, max_length=11)
+    # category = models.CharField(max_length=11, choices=[(tag, tag.value) for tag in CategoryChoice])
+    STATUS = Choices(
+        ('sold', _('Sold')),
+        ('avaialable', _('Available'))
+    )
+    sellingStatus = models.CharField(choices=STATUS, max_length=10)
+    # sellingStatus =models.CharField(max_length=10, choices=[(tag, tag.value) for tag in SellingChoice])
 
+    def __str__(self):
+        return self.product_name
 
-class Customer(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=15, choices=[(tag, tag.value) for tag in StateChoice])
-    user_name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    password = models.CharFileld(max_length=100)
-
-class sellingStatus(models.Model):
-    status = models.BooleanField()
 
 
 class Message(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name=“message”)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="message")
     content = models.TextField()
 
+    def __str__(self):
+        return self.content

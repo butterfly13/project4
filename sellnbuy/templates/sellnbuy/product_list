@@ -1,0 +1,10 @@
+  
+  
+  <h2>Products <a href="">(+)</a></h2>
+    <ul>
+        {% for product in products %}
+            <li>
+                <a href="">{{ product.product_name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
