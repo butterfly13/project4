@@ -69,9 +69,9 @@ class Product(models.Model):
     qty = models.PositiveSmallIntegerField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField()
-    CONDITION = Choices(('brand_new', _('Brand new')), ('used', _('Used')), ('like_new', _('Like new')))
+    CONDITION = Choices(('Brand new', _('Brand new')), ('Used', _('Used')), ('Like new', _('Like new')))
     # condition = models.CharField(max_length=10, choices=[(tag, tag.value) for tag in ConditionChoice])
-    condition = models.CharField(choices=CONDITION, default=CONDITION.brand_new, max_length=10)
+    condition = models.CharField(choices=CONDITION, default=CONDITION['Brand new'], max_length=10)
     CATEGORY = Choices(
         ('clothes', _('Clothes')),
         ('shoes', _('Shoes')),

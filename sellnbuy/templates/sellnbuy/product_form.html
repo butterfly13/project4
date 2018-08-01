@@ -1,0 +1,7 @@
+
+<h1>New Product</h1>
+<form method="POST" enctype="multipart/form-data" class="product-form">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="save btn btn-default">Add</button>
+</form>
+<!-- <form enctype="multipart/form-data" method="post" action="/foo/"></form> -->

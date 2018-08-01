@@ -1,0 +1,29 @@
+{% extends 'sellnbuy/base.html' %} {% block content %}
+
+<h2>Products
+    <a href="{% url 'product_create' %}">(+)</a>
+</h2>
+<div class="row">
+    <!-- <ul> -->
+    {% for product in products %}
+    <div class="col s12 m6 l3">
+        <div class="card">
+            <a href="{% url 'product_detail' pk=product.pk %}">
+                <div class="card-image">
+                    
+                    <img src="{{ product.image.url }}" alt="{{product.product_name}}">
+                        
+                    <span class="card-title">{{ product.product_name }}</span>
+
+                </div>
+            </a>
+            <p>Sell by: {{product.profile.user.first_name}}</p>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+<!-- </ul> -->
+{% endblock %}
+
+</div> -->

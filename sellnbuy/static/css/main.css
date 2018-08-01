@@ -1,0 +1,19 @@
+body {
+    background-color:greenyellow;
+    
+
+}
+
+div.content-body{
+    padding-left: 20px;
+    margin-top:10px;
+}
+h2 {
+    text-align: center;
+}
+
+nav {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
