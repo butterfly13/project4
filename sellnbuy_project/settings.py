@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = 'product_list'
+# LOGOUT_REDIRECT_URL = 'logout'
 
 # Application definition
 
@@ -80,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'NAME': 'sellnbuy',
-        'USER': 'sellnbuyuser',
+        'USER': 'sellnbuyuser1',
         'PASSWORD': 'makemoney',
         'HOST': 'localhost',
     }

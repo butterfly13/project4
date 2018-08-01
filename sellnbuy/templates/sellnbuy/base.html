@@ -24,15 +24,23 @@
                     <i class="material-icons">menu</i>
                 </a>
                 <ul class="right hide-on-med-and-down">
+                    {% if user.is_authenticated %}
+                    <li> Welcome, {{ user.username }}
+                    </li>
+                    
+                    <li><a href="{% url 'logout' %}">Log Out</a></li>
+                       
+                    {% else %}
                     <li>
-                        <a href="/">Become a seller?</a>
+                            <a href="/">Become a seller?</a>
                     </li>
                     <li>
-                        <a href="">Sign In</a>
+                        <a href="{% url 'login' %}">Log In</a>
                     </li>
                     <li>
-                        <a href="">Sign Up</a>
+                        <a href="{% url 'signup' %}">Sign Up</a>
                     </li>
+                    {% endif %}
                     <li>
                         <a href="">Cart</a>
                     </li>

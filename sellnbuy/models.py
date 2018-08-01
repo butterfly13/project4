@@ -1,34 +1,8 @@
 from django.db import models
 from enum import Enum
-# from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
-# from django.db.models.signals import post_save
-# from django.dispatch import receiver
 from model_utils import Choices
-# fs = FileSystemStorage(location='/media/images')
-
-
-# Create your models here.
-# class ConditionChoice(Enum):
-#     BRAND_NEW = "Brand new"
-#     USED = "Used"
-#     LIKE_NEW = "Like new" 
-
-# class CategoryChoice(Enum):
-#     CLOTHES = "Clothes"
-#     SHOES = "Shoes"
-#     HANDBAGS = "Handbags"
-#     BABY_STUFF = "Baby stuff"
-#     HOUSEHOLD = "Household"
-#     ELECTRONICS = "Electronics"
-#     FURNITURE = "Funiture"
-#     MISC = "Miscellaneous"
-
-
-# class SellingChoice(Enum):
-#     SOLD = "Sold"
-#     AVAILABLE = "Available"
 
 
 
@@ -39,27 +13,75 @@ class State(models.Model):
     def __str__(self):
         return self.state
 
-
+# class Profile(AbstractUser):
+#     address = models.CharField(max_length=100)
+#     city = models.CharField(max_length=100)
+#     state = models.ForeignKey(State, on_delete=models.CASCADE, related_name="customer")
+#     zipcode = models.CharField(max_length=10, blank = True)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
-    state = models.ForeignKey(State, on_delete=models.CASCADE, related_name="customer")
+    # state = models.CharField(max_length=40)
+    # state = models.ForeignKey(State, on_delete=models.CASCADE, related_name="customer")
     zipcode = models.CharField(max_length=10, blank = True)
+    STATE = Choices(('AL', 'Alabama'), 
+                    ('AK', 'Alaska'),
+                    ('AZ', 'Arizona'), 
+                    ('AR', 'Arkansas'), 
+                    ('CA', 'California'),
+                    ('CO', 'Colorado'), 
+                    ('CT', 'Connecticut'),
+                    ('DE', 'Delaware'),
+                    ('DC', 'District of Columbia'), 
+                    ('FL', 'Florida'), 
+                    ('GA', 'Georgia'), 
+                    ('HI', 'Hawaii'), 
+                    ('ID', 'Idaho'), 
+                    ('IL', 'Illinois'), 
+                    ('IN', 'Indiana'), 
+                    ('IA', 'Iowa'), 
+                    ('KS', 'Kansas'), 
+                    ('KY', 'Kentucky'), 
+                    ('LA', 'Louisiana'), 
+                    ('ME', 'Maine'), 
+                    ('MD', 'Maryland'), 
+                    ('MA', 'Massachusetts'), 
+                    ('MI', 'Michigan'), 
+                    ('MN', 'Minnesota'), 
+                    ('MS', 'Mississippi'), 
+                    ('MO', 'Missouri'), 
+                    ('MT', 'Montana'), 
+                    ('NE', 'Nebraska'), 
+                    ('NV', 'Nevada'), 
+                    ('NH', 'New Hampshire'), 
+                    ('NJ', 'New Jersey'), 
+                    ('NM', 'New Mexico'), 
+                    ('NY', 'New York'), 
+                    ('NC', 'North Carolina'), 
+                    ('ND', 'North Dakota'), 
+                    ('OH', 'Ohio'), 
+                    ('OK', 'Oklahoma'), 
+                    ('OR', 'Oregon'), 
+                    ('PA', 'Pennsylvania'), 
+                    ('RI', 'Rhode Island'), 
+                    ('SC', 'South Carolina'), 
+                    ('SD', 'South Dakota'), 
+                    ('TN', 'Tennessee'), 
+                    ('TX', 'Texas'), 
+                    ('UT', 'Utah'), 
+                    ('VT', 'Vermont'), 
+                    ('VA', 'Virginia'), 
+                    ('WA', 'Washington'), 
+                    ('WV', 'West Virginia'), 
+                    ('WI', 'Wisconsin'), 
+                    ('WY', 'Wyoming'))
+    state = models.CharField(choices=STATE, max_length=30)
     
    
     def __str__(self):
         return self.user.first_name
-
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
-
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.profile.save()
 
 
 class Product(models.Model):
@@ -83,13 +105,12 @@ class Product(models.Model):
         ('misc', _('Miscellaneous'))
         )
     category = models.CharField(choices=CATEGORY, max_length=11)
-    # category = models.CharField(max_length=11, choices=[(tag, tag.value) for tag in CategoryChoice])
     STATUS = Choices(
         ('sold', _('Sold')),
         ('avaialable', _('Available'))
     )
     sellingStatus = models.CharField(choices=STATUS, max_length=10)
-    # sellingStatus =models.CharField(max_length=10, choices=[(tag, tag.value) for tag in SellingChoice])
+    
 
     def __str__(self):
         return self.product_name

@@ -1,5 +1,7 @@
 from django import forms
-from .models import Product, Profile, Message, State
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from .models import Product, Profile, Message
 
 class ProductForm(forms.ModelForm):
 
@@ -8,8 +10,15 @@ class ProductForm(forms.ModelForm):
         fields = ('profile', 'product_name', 'description', 'qty', 'price', 'image', 'condition', 'category',)
 
 
-# class SongForm(forms.ModelForm):
-    
-#     class Meta:
-#         model = Song
-#         fields = ('title', 'album', 'preview_url', 'artist',)
+class SignUpForm(UserCreationForm):
+    first_name = forms.CharField(max_length=100, required=False, help_text='Require.')
+    last_name = forms.CharField(max_length=100, required=False, help_text='Require.')
+    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+    address = forms.CharField(max_length=100)
+    city = forms.CharField(max_length=100)
+    state = forms.CharField(max_length=100)
+    zipcode = forms.CharField(max_length=10)
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email', 'password1', 'password2', 'username',  )

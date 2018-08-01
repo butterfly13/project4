@@ -18,10 +18,24 @@ from django.urls import path
 from django.conf.urls import include
 from django.conf.urls.static import static  #for image file
 from django.conf import settings
-# from sellnbuy import views as tunr_views
-# from django.contrib.auth import views as auth_views
+from sellnbuy import views as sellnbuy_views
+from django.contrib.auth import views as auth_views
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('sellnbuy.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/logout/', auth_views.logout, name='logout'),
+    path('accounts/signup/', sellnbuy_views.sign_up, name='signup'),
+    
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+
+# path('accounts/signup', tunr_views.sign_up, name='signup'),
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
