@@ -1,17 +1,18 @@
 from django.db import models
-from enum import Enum
+# from enum import Enum
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 from model_utils import Choices
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
+# class State(models.Model):
+#     state = models.CharField(max_length=20)
 
-class State(models.Model):
-    state = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.state
+#     def __str__(self):
+#         return self.state
 
 # class Profile(AbstractUser):
 #     address = models.CharField(max_length=100)
@@ -83,8 +84,14 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.first_name
 
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+        instance.profile.save()
 
 class Product(models.Model):
+    # Profile
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="product")
     product_name = models.CharField(max_length = 100)
     description = models.TextField()
@@ -123,3 +130,9 @@ class Message(models.Model):
 
     def __str__(self):
         return self.content
+
+ 
+ 
+#  insert into sellnbuy_profile(id, address, city, zipcode, state, user_id)
+#  VALUES(1, "1234 14th street", "Gaithersburg", "20889", "Maryland", 2);
+

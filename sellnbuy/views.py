@@ -22,9 +22,14 @@ def sign_up(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # username = form.cleaned_data.get('username')
-            # raw_password = form.cleaned_data.get('password')
-            # user = authenticate(username=username, password=raw_password)
+            user.refresh_from_db() #load the profile instance created by the signal
+            user.profile.address = form.cleaned_data.get('address')
+            user.profile.city = form.cleaned_data.get('city')
+            user.profile.state = form.cleaned_data.get('state')
+            user.profile.zipcode = form.cleaned_data.get('zipcode')
+            user.save()
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=user.username, password=raw_password)
             login(request, user)
             return redirect('product_list')
     else:
@@ -46,6 +51,7 @@ def product_list(request):
 def product_detail(request, pk):
     product = Product.objects.get(id=pk)
     return render(request, 'sellnbuy/product_detail.html', {'product': product})
+
 
 # Add new product
 @login_required
