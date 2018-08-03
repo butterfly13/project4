@@ -1,6 +1,6 @@
 {% extends '../sellnbuy/base.html' %}
 
-{% load bootstrap %}
+<!-- {% load bootstrap %} -->
 {% block content %}
 <h2>Login</h2>
 <div class="row">
@@ -8,7 +8,7 @@
         <div class="col-lg-8 col-md-8 col-sm-12">
 <form method="post">
     {% csrf_token %}
-    {{ form|bootstrap }}
+    <!-- {{ form|bootstrap }} -->
     <div class="form-group">
             <button type="submit" class="btn btn-primary">Login</button>
     </div>
