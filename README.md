@@ -1,7 +1,26 @@
-project4
-========
+Project 4
+=========
 
 - This app is the platform for registered users to post and sell products.
+
+How to install:
+--------------
+- Create virtual environment
+```
+virtualenv .env -p python3
+
+```
+- Activate virtual environment
+```
+source .env/bin/activate
+
+```
+
+- Install requirements.txt
+```
+pip install -r requirements.txt
+
+```
 
 Technology used:
 ----------------
