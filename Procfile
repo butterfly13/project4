@@ -1,0 +1,1 @@
+web: gunicorn sellnbuy_project.wsgi —-log-file -

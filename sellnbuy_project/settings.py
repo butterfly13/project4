@@ -25,7 +25,7 @@ SECRET_KEY = '5t=rp8&8t6ju&%q!4-d+z#%r*2u3m0vh$%p1e7ug2yr3v7mp)@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'lit-brook-71386.herokuapp.com']
 
 LOGIN_REDIRECT_URL = 'product_list'
 # LOGOUT_REDIRECT_URL = 'logout'
@@ -133,3 +133,4 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media/images'
 
+STATIC_ROOT = os.path.join(BASE_DIR, ‘staticfiles’)
