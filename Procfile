@@ -1,2 +1,2 @@
 
-web: sellnbuy.wsgi.application —-log-file -
+web: sellnbuy.wsgi —-log-file -
