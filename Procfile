@@ -1,2 +1,1 @@
-
-web: sellnbuy.wsgi —-log-file -
+web: gunicorn sampledeploy.wsgi —-log-file -
