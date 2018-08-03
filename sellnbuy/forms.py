@@ -5,18 +5,14 @@ from .models import Product, Profile, Message
 from django.forms import ModelChoiceField
 
 class ProductForm(forms.ModelForm):
-    # user_profile = forms.ModelChoiceField(queryset=Product.objects.all())
+    
+    profile = forms.ModelChoiceField(queryset=Profile.objects.all(), widget=forms.Select(), empty_label='--Pick Seller--')
+   
+    
     class Meta:
         model = Product
-        fields = ('profile','product_name', 'description', 'qty', 'price', 'image', 'condition', 'category',)
-
-        # def __init__(self, *args, **kwargs):
-        #     user = kwargs.pop('user', '')
-        #     super(ProductForm, self).__init__(*args, **kwargs)
-        #     self.fields['profile']=form.ModelChoiceField(queryset=Profile.objects.all())
-        
-        # fields = ('user','product_name', 'description', 'qty', 'price', 'image', 'condition', 'category',)
-        
+        fields = ('profile','product_name', 'description', 'qty', 'price', 'image','category', 'condition', )
+         
 
 
 
@@ -32,6 +28,6 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email','username', 'password1', 'password2',   )
-        # fields= ('username', 'password1', 'password2',)
+       
 
 

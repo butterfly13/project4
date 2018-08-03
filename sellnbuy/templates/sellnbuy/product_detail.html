@@ -1,11 +1,31 @@
-<h2>{{ product.product_name }} <a href="{% url 'product_edit' pk=product.pk %}">(edit)</a></h2>
-<h3>Seller: {{ product.profile.user.first_name }}</h3>
-<p>Description: {{ product.description}}</p>
-<p>Price: ${{ product.price }}</p>
-<p>Condition: {{ product.condition }}</p>
-<button>Add to Cart</button>
-<img src="{{ product.image.url }}">
+{%extends 'sellnbuy/base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  <h2 class="product-name">{{ product.product_name }}<a href="{% url 'product_edit' pk=product.pk %}">(edit)</a></h2>
+{% else %}
+  <h2 class="product-name">{{ product.product_name }}</h2>
+{% endif %}
+<div class="row">
+  <div class="col-lg-2 col-md-2"> </div>
+  <div class="col-lg-8 col-md-8 col-sm-12">
+      <div class="card">
+          <img class="card-img-top" src="{{ product.image.url }}" alt="">
+          <div class="card-body">
+            <!-- <h3>{{ product.product_name }}</h3> -->
+            <p><b>Description:</b> {{product.description}}</p>
+            <p><b>Condition: </b>{{ product.condition}}</p>
+            <p><b>Price:</b> ${{ product.price }}</p>
+            <button type="submit" class="btn btn-primary cart" onclick="addToCart()">Add to Cart</button>
+          </div>
+        </div>
+
+  </div>
+
+</div>
 
 
+
+{% endblock %}
 
 

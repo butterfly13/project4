@@ -1,7 +1,23 @@
+{%extends 'sellnbuy/base.html' %}
 
-<h1>New Product</h1>
+{% load bootstrap %}
+{% block content %}
+
+<h2>New Product</h2>
+<div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-12"></div>
+        <div class="col-lg-8 col-md-8 col-sm-12">
 <form method="POST" enctype="multipart/form-data" class="product-form">
-    {% csrf_token %} {{ form.as_p }}
-    <button type="submit" class="save btn btn-default">Add</button>
+    {% csrf_token %} 
+    <!-- {{ form.as_p }} -->
+    {{ form|bootstrap }}
+    <div class="form-group">
+            <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+   
+    <!-- <button type="submit" class="save btn btn-default">Add</button> -->
 </form>
-<!-- <form enctype="multipart/form-data" method="post" action="/foo/"></form> -->
+</div>
+</div>
+
+{% endblock %}
