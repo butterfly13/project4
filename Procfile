@@ -1,1 +1,2 @@
-web: gunicorn sellnbuy_project.wsgi —-log-file -
+
+web: sellnbuy_project.wsgi.application
