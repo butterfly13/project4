@@ -13,20 +13,19 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 import django_heroku
 
-# import dj-database-url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# db_from_env = dj_database_url.config()
-# DATABASES[‘default’].update(db_from_env)
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5t=rp8&8t6ju&%q!4-d+z#%r*2u3m0vh$%p1e7ug2yr3v7mp)@'
 
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '5t=rp8&8t6ju&%q!4-d+z#%r*2u3m0vh$%p1e7ug2yr3v7mp)@')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = False
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'lit-brook-71386.herokuapp.com']
 
@@ -83,9 +82,8 @@ WSGI_APPLICATION = 'sellnbuy_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
+     
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'NAME': 'sellnbuy',
         'USER': 'sellnbuyuser1',
         'PASSWORD': 'makemoney',
@@ -112,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# AUTH_USER_MODEL = 'sellnbuy.Profile'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
