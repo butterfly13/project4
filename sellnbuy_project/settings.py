@@ -24,10 +24,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '5t=rp8&8t6ju&%q!4-d+z#%r*2u3m0vh$%p1e7ug2yr3v7mp)@')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 # DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '.lit-brook-71386.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','lit-brook-71386.herokuapp.com',]
+
 
 LOGIN_REDIRECT_URL = 'product_list'
 # LOGOUT_REDIRECT_URL = 'logout'
@@ -63,7 +64,7 @@ ROOT_URLCONF = 'sellnbuy_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,10 +133,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = 'media/images'
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+   
+)
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+TATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_URL = '/media/'
+# MEDIA_ROOT = 'media/images'
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 
 django_heroku.settings(locals())
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
