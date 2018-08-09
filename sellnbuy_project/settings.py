@@ -28,7 +28,7 @@ DEBUG = False
 # DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1','lit-brook-71386.herokuapp.com',]
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'sunshine.pythonanywhere.com/']
 
 
 LOGIN_REDIRECT_URL = 'product_list'
