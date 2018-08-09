@@ -27,7 +27,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '5t=rp8&8t6ju&%q!4-d+z#%r*2u3m0
 DEBUG = True
 # DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','lit-brook-71386.herokuapp.com',]
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1','lit-brook-71386.herokuapp.com',]
+ALLOWED_HOSTS = []
 
 
 LOGIN_REDIRECT_URL = 'product_list'
