@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-# import django_heroku
+import django_heroku
+from decouple import config, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,14 +22,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = config('SECRET_KEY')
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '5t=rp8&8t6ju&%q!4-d+z#%r*2u3m0vh$%p1e7ug2yr3v7mp)@')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-# DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1','lit-brook-71386.herokuapp.com',]
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'sunshine.pythonanywhere.com/']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
 LOGIN_REDIRECT_URL = 'product_list'
@@ -65,7 +64,8 @@ ROOT_URLCONF = 'sellnbuy_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        # 'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,10 +88,10 @@ DATABASES = {
     'default': {
      
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sellnbuy',
-        'USER': 'sellnbuyuser1',
-        'PASSWORD': 'makemoney',
-        'HOST': 'localhost',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
     }
 }
 
@@ -142,10 +142,10 @@ STATICFILES_DIRS = (
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 TATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 # MEDIA_ROOT = 'media/images'
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
